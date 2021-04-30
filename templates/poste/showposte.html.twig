@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Gestion Reclamation</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Reclamations</h6>
+            <input type="text" id="search" class="form-control" placeholder="Search">
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+
+                    <thead>
+                    <tr>
+                        <th>titre</th>
+                        <th>sujet</th>
+                        <th>image</th>
+                        <th>groupe</th>
+
+
+                    </tr>
+
+
+
+                    </thead>
+
+                    <tbody id="allTTTT">
+                    {% for poste  in postes %}
+
+                        <tr>
+
+                            <td>{{ poste.titre }}</td>
+                            <td>{{ poste.sujet }}</td>
+                            <td><img height="100px" width="100px" src="{{ asset('uploads/images/') }}{{poste.image}}"></td>
+                            <td>{{ poste.groupe }}</td>
+                            <td> <a href="{{  path("deleteposte",{"id":poste.id}) }}" class="btn btn-outline-danger" role="button" aria-pressed="true">Suprimer</a></td>
+                            <td> <a href="{{ path("modifierposte",{"id":poste.id}) }}" class="btn btn-outline-warning" role="button" aria-pressed="true">Modifier</a></td>
+
+
+
+
+
+
+
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                    <tbody id="searchTTT">
+
+                    </tbody>
+
+
+
+
+
+
+                </table>
+                <center>
+                    <br>
+                    <td> <a href="{{ path("posteajouter") }}" class="btn btn-outline-success" role="button" aria-pressed="true" >Ajouter</a></td>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+                    </script>
+                    <script>
+                        $( document ).ready(function() {
+                            $("#search").keyup(function(e){
+                                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                                var value = $(this).val();
+                                $.ajax({
+                                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                                    url : "{{ path('searchposte') }}",
+                                    /* La méthode utilisée pour transférer les données est GET */
+                                    type : 'GET',
+                                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                                    data: {
+                                        'searchValue' : value
+                                    },
+                                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                                    success : function(retour){
+                                        if(retour){
+                                            $('#searchTTT').empty();
+                                            $.each(JSON.parse(retour), function(i, obj) {
+                                                $('#allTTTT').hide();
+                                                $('#searchTTT').append('<tr><td> '+obj.titre+'   </td><td> '+obj.sujet+'     </td><td><img height="70px" width="100px" src="/uploads/images/'+obj.image+'"></td> <td><a class="btn btn-outline-warning" href="modifierposte/'+obj.id+'">modifier</a> <a class="btn btn-outline-danger" href="deleteposte/'+obj.id+'">supprimer</a></td></tr>');
+                                            });
+                                        }
+                                        else
+                                        {
+                                            $('#allTTTT').show();
+                                            $('#searchTTT').empty();
+                                            $('#searchTTT').fadeIn('fast');
+                                        }
+                                    },
+                                });
+                                return false;
+                            });
+                        });
+
+
+
+
+
+
+
+                    </script>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+        {% endblock %}

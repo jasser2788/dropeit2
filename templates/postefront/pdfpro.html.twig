@@ -1,0 +1,107 @@
+{% block content %}
+    <div class="container">
+
+
+
+
+        <head>
+            <script>
+
+                window.onload = function () {
+
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        theme:"light2",
+                        animationEnabled: true,
+                        title:{
+                            text: "Weight in Data"
+                        },
+                        axisY :{
+                            title: "weight",
+                            //suffix: "mn"
+                        },
+                        toolTip: {
+                            shared: "true"
+                        },
+                        legend:{
+                            cursor:"pointer",
+                            itemclick : toggleDataSeries
+                        },
+                        data: [{
+                            type: "spline",
+                            visible: true,
+                            showInLegend: true,
+                            yValueFormatString: "##.00mn",
+                            name: "Weight journey",
+                            dataPoints: [
+                                {% for e in curentW %}
+                                { label:"{{ e.date }}", y: {{ e.weight }} },
+                                {% endfor %}
+
+
+                            ]
+                        },
+                            {
+                                type: "spline",
+                                showInLegend: true,
+                                animationEnabled: true,
+                                visible: true,
+                                yValueFormatString: "##.00mn",
+                                name: " optimal weight loss",
+                                dataPoints: [
+
+
+                                    {% for e in curentW %}
+
+
+                                    { label:"{{ e.date }}", y: {{ curentW[0].weight }}-3*{{ e.id }} },
+                                    {% endfor %}
+
+                                ]
+                            },
+                            {
+                                type: "spline",
+                                visible: true,
+                                showInLegend: true,
+                                animationEnabled: true,
+                                yValueFormatString: "##.00mn",
+                                name: "weight gain",
+                                dataPoints: [
+                                    {% for e in curentW %}
+
+
+                                    { label:"{{ e.date }}", y: {{ curentW[0].weight }}+3*{{ e.id }} },
+                                    {% endfor %}
+                                ]
+                            },
+
+
+
+
+                        ]
+                    });
+                    chart.render();
+
+                    function toggleDataSeries(e) {
+                        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){
+                            e.dataSeries.visible = false;
+                        } else {
+                            e.dataSeries.visible = true;
+                        }
+                        chart.render();
+
+                    }
+
+                }
+            </script>
+        </head>
+        <body>
+        <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <td> <a href="{{ path("showW") }}" class="btn btn-outline-success" role="button" aria-pressed="true" >curent weight</a></td>
+        <td> <a href="{{ path("data") }}" class="btn btn-outline-success" role="button" aria-pressed="true" >update your info</a></td>
+        </body>
+
+    </div>
+
+    </div>
+{% endblock %}

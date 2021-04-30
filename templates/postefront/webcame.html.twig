@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>
+        take a picture
+    </title>
+</head>
+<style>
+    #camera{
+        width: 350px;
+        height: 350px;
+        border: 1px solid black;
+    }
+</style>
+<body>
+<div id="camera" ></div>
+<button onclick="take_snapshot()">take a pic</button>
+    <form role="form" id="contact_form" class="contact-form" method="post" action="{{ path("snap2") }}">
+        <input type="button" class="form-control" name="" value="ok" id="imageOffre ">
+
+        <div id="results">
+        </div>
+
+    </form>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+<script>
+    //load all webcame
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach("#camera");
+    function take_snapshot(){
+        // take snapshot and get image data
+        Webcam.snap( function(data_uri) {
+            // display results in page
+            document.getElementById('results').innerHTML =
+                '<img id ="imageprev" src="'+data_uri+'"/>';
+        } );
+
+
+
+    }
+
+
+    function saveSnap(){
+        // Get base64 value from <img id='imageprev'> source
+
+        var base64image = document.getElementById("imageprev").src;
+
+        Webcam.upload( base64image,'{{ path('snap2') }}', function(code, text) {
+            console.log('Save successfully');
+
+            //console.log(text);
+        });
+
+    }
+
+
+</script>
+
+
+
+    </html>
