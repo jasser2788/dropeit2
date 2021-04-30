@@ -1,0 +1,60 @@
+
+{% extends 'front/base.html.twig' %}
+{% block content %}
+<div class="about_banner_img"><img src="images/class_img.jpg" class="img-responsive" alt=""/></div>
+<div class="about_banner_wrap">
+    <h1 class="m_11">Seance en ligne</h1>
+</div>
+
+    <div class="border"> </div>
+    <div class="container">
+        <div class="classes_wrapper">
+
+
+            <div class="row class_box">
+                {% for e in specialists %}   <div class="col-md-6">
+                    <div class="class_left">
+                        <div style="width:270px;height:249px;border:1px solid #000;background-color: #3b444b" >
+                           <br> <br><br><br><p style="font-family:verdana;color:white;font-size:40px">  {{ e.date ? e.date|date('Y-m-d') : ''}}</p></div>
+                    </div>
+
+                    <div class="class_right">
+                        <p style="color:#9755d1">sdfdsfsdfdsf</p>
+
+                        <div class="class_img">
+                            {%  if ( e.specialite=="Musculation" ) %}
+                                <img src="images/c2.jpg" alt=""/>
+                            {%  elseif ( e.specialite=="Nutrrition" ) %}
+                                <img src="images/c14.jpg" alt=""/>
+
+                            {%  elseif ( e.specialite=="cardio" ) %}
+                                <img src="images/c13.jpg" alt=""/>
+
+                            {% endif %}
+
+                            <div class="class_desc">
+<p style="color:#9755d1">sdfdsfsdfdsf</p>
+                                <h5 style="color:#3b444b;font-size:20px">Specialist</h5>
+                                <h4>{{e.prenom }} {{e.nom }}</h4>
+                                <h5 style="color:#3b444b;font-size:20px">Seance</h5>
+                                <h4>{{e.specialite }}</h4>
+
+                            </div>
+                            <div class="clear"></div>
+
+                            <ul class="buttons_class">
+                                <li class="btn6"><a style="color:#3b444b" href="{{  path("ajoutrdv",{"id":e.id}) }}">Réserver</a></li>
+                                <div class="clear"></div>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div><br>
+                </div>
+
+                {% endfor %}
+
+
+                {% endblock %}
+
+
