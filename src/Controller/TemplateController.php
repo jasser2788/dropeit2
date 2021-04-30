@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TemplateController extends AbstractController
 {
     /**
-     * @Route("/template", name="template")
+     * @Route("/back", name="back")
      */
     public function index(): Response
     {
@@ -17,4 +17,14 @@ class TemplateController extends AbstractController
             'controller_name' => 'TemplateController',
         ]);
     }
+    /**
+     * @Route("/front", name="front")
+     */
+    public function front(): Response
+    {
+        return $this->render('admin/base.html.twig', [
+            'controller_name' => 'TemplateController',
+        ]);
+    }
+
 }
