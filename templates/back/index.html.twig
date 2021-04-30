@@ -1,20 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BackController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/jasser/Desktop/pi web/piweb/src/Controller/BackController.php'|file_link(0) }}">src/Controller/BackController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/jasser/Desktop/pi web/piweb/templates/back/index.html.twig'|file_link(0) }}">templates/back/index.html.twig</a></code></li>
-    </ul>
+
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Programs</h1>
+    <p class="mb-4"> <a target="_blank" href="https://datatables.net"></a>.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+
+<div class="card-body">
+    <div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Image</th>
+                <th>Days</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for programme in programmes %}
+            <tr>
+                <td>{{ programme.id }}</td>
+                <td>{{ programme.name }}</td>
+                <td>{{ programme.type }}</td>
+                <td><img height="100px" width="100px" src="{{ asset('uploads/images/') }}{{programme.image}}"></td>
+                <td>{{ programme.days }}</td>
+                <td>
+                    <button class="btn btn-warning btn-icon-split"> <a href="{{ path('programme_show', {'id': programme.id}) }}">EDIT</a></button>
+                    <button class="btn btn-danger btn-icon-split"><a href="{{ path('programme_edit', {'id': programme.id}) }}">DELETE</a></button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <button class="btn btn-success btn-icon-split"> <a href="{{ path('programme_new') }}">Create new</a></button>
+    </div>
+</div>
+    </div>
 </div>
 {% endblock %}

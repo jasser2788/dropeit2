@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>liste programme</h1>
+
+
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Days</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for programme in programmes %}
+                            <tr>
+                                <td>{{ programme.id }}</td>
+                                <td>{{ programme.name }}</td>
+                                <td>{{ programme.type }}</td>
+
+                                <td>{{ programme.days }}</td>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+{% endblock %}
