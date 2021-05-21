@@ -5,111 +5,58 @@
  */
 package gui;
 
-import com.codename1.capture.Capture;
-import com.codename1.components.MultiButton;
-import com.codename1.components.ToastBar;
-import com.codename1.io.FileSystemStorage;
-import com.codename1.io.Log;
-import static com.codename1.io.Log.e;
-import com.codename1.io.Util;
-import com.codename1.l10n.SimpleDateFormat;
-import com.codename1.media.Media;
-import com.codename1.media.MediaManager;
 import com.codename1.ui.Button;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
-import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.UIManager;
-//import com.sun.swing.internal.plaf.basic.resources.basic;
-import java.io.IOException;
-import java.util.Date;
+import com.codename1.ui.util.Resources;
 
 
 /**
  *
  * @author User
  */
-public class HomeForm extends Form{
-     public HomeForm() {
+public class HomeForm extends BaseForm{
+     public Resources theme2;
+     public Resources theme3;
+    
+   public HomeForm(Resources res) {
+         theme2 =UIManager.initFirstTheme("/theme"); 
+       
+        
+       setUIID("SignIn");
+        
        this.setTitle("Home");
+       
+      
        this.setLayout(BoxLayout.y());
-       Button addposteBtn = new Button("add program");
-       Button listposteBtn = new Button("show program");
-      Button delteBtn = new Button("show program");
-      
-       this.addAll(addposteBtn,listposteBtn,delteBtn);
-       addposteBtn.addActionListener((p)->new addProgramForm().show());
-       listposteBtn.addActionListener(l->new programListForm().show());
-      
-//       statBtn.addActionListener(l->new satitForm().show());
-//       statsBtn.addActionListener(l->new statshowForm().show());
+       Button addposteBtn = new Button("add poste");
+       Button listposteBtn = new Button("show poste");
+        Button statBtn = new Button("add progress");
+         Button statsBtn = new Button("show progress");
+         Button profilbtn = new Button("show profile");
+          Button abobtn = new Button("abonnement");
+           Button progaddbtn = new Button(" add program");
+            Button progshowbtn = new Button(" show program");
+            Button recbtn = new Button(" reclamation");
+            Button eventbtn = new Button(" event");
+             Button rdvbtn = new Button(" reservation");
+             Button rdvbtn2 = new Button(" show reservation");
+       this.addAll(addposteBtn,listposteBtn,statBtn,statsBtn,profilbtn,abobtn,progaddbtn,progshowbtn,recbtn,eventbtn,rdvbtn,rdvbtn2);
+       addposteBtn.addActionListener((p)->new AddPosteFrom( UIManager.initFirstTheme("/theme2")).show());
+       listposteBtn.addActionListener(l->new posteListForm(UIManager.initFirstTheme("/theme2")).show());
+       statBtn.addActionListener(l->new satitForm(UIManager.initFirstTheme("/theme2")).show());
+       statsBtn.addActionListener(l->new statshowForm(UIManager.initFirstTheme("/theme2")).show());
+       profilbtn.addActionListener(l->new ProfileForm(UIManager.initFirstTheme("/theme_1")).show());
+       abobtn.addActionListener(l->new ListeAbonnementForm(res).show());
+       progaddbtn.addActionListener(l->new addProgramForm(UIManager.initFirstTheme("/theme2")).show());
+       progshowbtn.addActionListener(l->new programListForm(UIManager.initFirstTheme("/theme2")).show());
+       recbtn.addActionListener(l->new AjoutReclamationForm(theme2).show());
+        eventbtn.addActionListener(l->new afficherEvenement(UIManager.initFirstTheme("/theme2")).show());
+         rdvbtn.addActionListener(l->new AddRdvForm(UIManager.initFirstTheme("/theme2")).show());
+          rdvbtn2.addActionListener(l->new RdvListForm(theme2).show());
       // statBtn.addActionListener(s->new statForm().show());
        
-     
-      
-      
-      
-setToolbar(new Toolbar());
-         com.codename1.ui.plaf.Style s = UIManager.getInstance().getComponentStyle("Title");
-FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_MIC, s);
-
-FileSystemStorage fs = FileSystemStorage.getInstance();
-String recordingsDir = fs.getAppHomePath() + "recordings/";
-fs.mkdir(recordingsDir);
-try {
-    for(String file : fs.listFiles(recordingsDir)) {
-        MultiButton mb = new MultiButton(file.substring(file.lastIndexOf("/") + 1));
-        mb.addActionListener((e) -> {
-            try {
-                Media m = MediaManager.createMedia(recordingsDir + file, false);
-                m.play();
-            } catch(IOException err) {
-                Log.e(err);
-            }
-        });
-       add(mb);
-    }
-
-   getToolbar().addCommandToRightBar("", icon, (ev) -> {
-        try {
-            String file = Capture.captureAudio();
-            if(file != null) {
-                SimpleDateFormat sd = new SimpleDateFormat("yyyy-MMM-dd-kk-mm");
-                String fileName =sd.format(new Date());
-                String filePath = recordingsDir + fileName;
-                Util.copy(fs.openInputStream(file), fs.openOutputStream(filePath));
-                MultiButton mb = new MultiButton(fileName);
-                mb.addActionListener((e) -> {
-                    try {
-                        Media m = MediaManager.createMedia(filePath, false);
-                        m.play();
-                    } catch(IOException err) {
-                        Log.e(err);
-                    }
-                });
-             add(mb);
-               revalidate();
-            }
-        } catch(IOException err) {
-            Log.e(err);
-        }
-    });
-} catch(IOException err) {
-    Log.e(err);
-}
-show();
-   
-   }
-     
-     
-     
-     
-     
-     
-     
        
-     
-     
-     
+   }
 }
